@@ -17,6 +17,8 @@ class Category extends Model
         "parent_id",
     ];
 
+    protected $hidden = ['laravel_through_key'];
+
     public function child()
     {
         return $this->hasMany(Category::class, "parent_id", "id");

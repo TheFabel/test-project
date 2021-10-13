@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Category;
+use App\Services\Parser;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
 
 class ImportCategories extends Command
 {
@@ -28,6 +29,11 @@ class ImportCategories extends Command
      */
     public function handle()
     {
-        Storage::get("category.csv");
+        $parser = new Parser("category.csv");
+
+        $categories = $parser->toArray();
+
+        Category::query()->truncate();
+        Category::query()->insert($categories);
     }
 }
